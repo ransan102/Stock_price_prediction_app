@@ -9,11 +9,24 @@
 
 <h2 class = "wrapper">この予測機は、事前に与えられた銘柄・期間を元に将来の株価の予測をグラフ形式でお見せするものです。</h2>
 <div class = "wrapper">
-    
-    <select class = "form-control">
-        
+    <form method = "post">
+    <select>
+        {% for kind in list_name %}
+        <option>
+            {{kind}}
+        {% endfor %}
+        </option>
+
     </select>
     <form method = "post">
+    <select>
+        {% for name in stock_data}
+        <option>
+            {{name}}
+        </option>
+        {% endfor %}
+    </select>
+    
         {{form.Year1}}
         {{form.Year1.label}}
         {{form.Month1}}

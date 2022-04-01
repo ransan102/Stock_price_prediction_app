@@ -1,3 +1,4 @@
+# coding: utf-8
 from flask import Flask, render_template, request
 from wtforms import Form, FloatField, StringField, validators, ValidationError, IntegerField, SubmitField
 import joblib
@@ -5,7 +6,7 @@ import numpy as np
 import pandas as pd
 
 # データの受け取り先は改訂予定
-df = pd.read_excel('/content/data_j.xlsx')
+df = pd.read_excel(r"C:\Users\taipo\project_haitlab_2\Stock_price_prediction_app\managing_app\templates\data_j.xlsx", engine = 'openpyxl')
 df
 
 #33業種以外の物を抽出
@@ -28,6 +29,7 @@ df2 = df.replace({"-": np.nan})
 df3 = df2.dropna(subset = ["33業種区分"])
 
 # 33業種をリスト化
+
 gyousyu33 = ["水産・農林業","食料品","鉱業","石油・石炭製品","建設業","金属製品","ガラス・土石製品","繊維製品","パルプ・紙","化学","医薬品","ゴム製品","輸送用機器","鉄鋼","非鉄金属","機械","電気機器","精密機器","その他製品","情報・通信業","サービス業","電気・ガス業","陸運業","海運業","空運業","倉庫・運輸関連業","卸売業","小売業","銀行業","証券、商品先物取引業","保険業","その他金融業","不動産業"]
 
 #業種ごとに銘柄を辞書でまとめる2
@@ -46,30 +48,30 @@ app = Flask(__name__)
 
 class StockForm(Form):
     Kind = StringField("The Kind of Stock",
-                       [validators.InputReqiured("記入必須")])
+                       [validators.InputRequired("記入必須")])
     
     Year1 = IntegerField("年",
-                         [validators.InputReqiured("記入必須"),
+                         [validators.InputRequired("記入必須"),
                           validators.NumberRange(min = 2022)])
     
     Month1 = IntegerField("月",
-                         [validators.InputReqiured("記入必須"),
+                         [validators.InputRequired("記入必須"),
                           validators.NumberRange(min = 1, max = 12)])
     
     Day1 = IntegerField("日から",
-                         [validators.InputReqiured("記入必須"),
+                         [validators.InputRequired("記入必須"),
                           validators.NumberRange(min = 1, max = 31)])
     
     Year2 = IntegerField("年",
-                         [validators.InputReqiured("記入必須"),
+                         [validators.InputRequired("記入必須"),
                           validators.NumberRange(min = 2022)])
     
     Month2 = IntegerField("月",
-                         [validators.InputReqiured("記入必須"),
+                         [validators.InputRequired("記入必須"),
                           validators.NumberRange(min = 1, max = 12)])
     
     Day2 = IntegerField("日まで",
-                         [validators.InputReqiured("記入必須"),
+                         [validators.InputRequired("記入必須"),
                           validators.NumberRange(min = 1, max = 31)])
     
     submit = SubmitField("送信")
@@ -79,17 +81,22 @@ class StockForm(Form):
 
 
 @app.route("/", methods=["GET", "POST"])
-
 def predicts():
     form = StockForm(request.form)
     if request.method == "POST":
         if form.validate() == False:
             return render_template('index.html', form = form)
         else:
-            
-            return render_template('result.html', Map= Map)
+            kind = request.form["kind"]
+            name = request.form["name"]
+            stock_data = data
+            list_name = gyousyu33
+            return render_template('result.html')
     elif request.method == "GET":
+        kind = request.form["kind"]
         
-        return render_template('index.html', form = form)
+        return render_template('index.html', form = form, kind = kind)
     
     
+if __name__ == "__main__":
+    app.run(debug=True)
