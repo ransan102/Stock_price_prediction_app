@@ -12,5 +12,6 @@ def predict(code, period, column):
     future = m.make_future_dataframe(periods=365)
     forecast = m.predict(future)
     
+    
     return forecast
     
