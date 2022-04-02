@@ -18,13 +18,15 @@ def save_fig_predict(code, start, end, column="Adj Close"):
     
     fig1 = m.plot(forecast)
     fig2 = m.plot_components(forecast)
-    print(forecast.columns)
     
     fig1.savefig("./managing_app/images/predict1.png")
     fig2.savefig("./managing_app/images/predict2.png")
-    return forecast
+    
+    benefit = forecast[forecast["ds"]==end]["yhat"].values[0] - forecast[forecast["ds"]==start]["yhat"].values[0]
+    
+    return benefit
 
 if __name__ == "__main__":
-    start = datetime.datetime.now()
+    start = datetime.datetime(2022,4,2)
     end = datetime.datetime(2023,4,2)
-    save_fig_predict("9020.T", start, end)
+    print(save_fig_predict("9020.T", start, end))

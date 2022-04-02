@@ -91,7 +91,8 @@ def predicts():
             start = datetime.datetime(int(request.form["Year1"]), int(request.form["Month1"]), int(request.form["Day1"]))
             end = datetime.datetime(int(request.form["Year2"]), int(request.form["Month2"]), int(request.form["Day2"]))
             
-            predict.save_fig_predict(str(code)+".T", start, end)    
+            benefit = predict.save_fig_predict(str(code)+".T", start, end)    
+            print("benfit: ",benefit)
         
             return render_template('result.html' ,StockName = list_name)
     elif request.method == "GET":
