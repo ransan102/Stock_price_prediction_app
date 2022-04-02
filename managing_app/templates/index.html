@@ -1,70 +1,99 @@
-<title>Stock Price Prediction</title>
-<style>
-    .wrapper{
-        text-align: center;
-    }
-</style>
+<!DOCTYPE html>
+<html>
 
-<h1 class = "wrapper">株価予測機</h1>
+<body>
 
-<h2 class = "wrapper">この予測機は、事前に与えられた銘柄・期間を元に将来の株価の予測をグラフ形式でお見せするものです。</h2>
-<div class = "wrapper">
-    <form name = "kind1" id = "kindform">
+    <title>Stock Price Prediction</title>
+    <style>
+        .wrapper {
+            text-align: center;
+        }
+    </style>
 
-    <label for = "kind">種類</label>
-    <select form = "kindform" name = 'kind'>
-        {% for kind in list_name %}
-        <option value = {{kind}}>
-            {{kind}}
-        </option>
-        {% endfor %}
-    
-    </select>
-    </form>
-    <input type = "botton" value = "決定" onclick = "Onclicker()">
-    <form method = 'post'>
-        <label for = 'name'>銘柄</label>
-    <select form = "nameform" name = 'name'>
-        {% for name in stock_data[kind][0] %}
-        <option>
-            {{name}}
-        </option>
-        {% endfor %}
-    </select>
 
-        {{form.Year1}}
-        {{form.Year1.label}}
-        {{form.Month1}}
-        {{form.Month1.label}}
-        {{form.Day1}}
-        {{form.Day1.label}}<br>
 
-        {{form.Year2}}
-        {{form.Year2.label}}
-        {{form.Month2}}
-        {{form.Month2.label}}
-        {{form.Day2}}
-        {{form.Day2.label}}<br>
+    <h1 class="wrapper">株価予測機</h1>
 
-        {{form.submit}}
-    </form>
-</div>
+    <h2 class="wrapper">この予測機は、事前に与えられた銘柄・期間を元に将来の株価の予測をグラフ形式でお見せするものです。</h2>
+    <div class="wrapper">
+        株を選ぶ
+        <form name="kind1" id="kindform">
 
-<scripts>
-    function Onclicker (){
-        const kind1 = document.kind1.kindform;
+            <label for="kind">種類</label>
+            <select form="kindform" name='kind' id="kind" onchange="inputChange()">
+                <option disabled selected>業種・区分を選択</option>
+                {% for kind in list_name %}
+                <option value={{kind}}>
+                    {{kind}}
+                </option>
+                {% endfor %}
 
-        // 値(数値)を取得
-        const num = kind1.selectedIndex;
-        //const num = document.form1.color1.selectedIndex;
-    
-        // 値(数値)から値(value値)を取得
-        const str = color1.options[num].value;
+            </select>
+        </form>
 
-        let trans = {'key':str}
-        data = JSON.stringify(trans)
+        <br>
 
-        const fs = require('fs')
-        fs.writeFileSync(path.join(, data))
-    }
-</scripts>
+        <form method='post'>
+            <label for='name'>銘柄</label>
+            <select form="nameform" id='name'>
+                <option disabled selected>銘柄を選択してください</option>
+            </select>
+            <div>
+                投資する期間を選ぶ
+                <br>
+                {{form.Year1}}
+                {{form.Year1.label}}
+                {{form.Month1}}
+                {{form.Month1.label}}
+                {{form.Day1}}
+                {{form.Day1.label}}<br>
+
+                {{form.Year2}}
+                {{form.Year2.label}}
+                {{form.Month2}}
+                {{form.Month2.label}}
+                {{form.Day2}}
+                {{form.Day2.label}}<br>
+
+                {{form.submit}}
+            </div>
+        </form>
+    </div>
+
+    <script>
+        window.onload = function () {
+            alert("Hello, JS.File is successfully loaded!!")
+        }
+        console.log("hogehoge");
+        const data = {{ stock_data| tojson}};
+        const categories = {{ list_name| tojson}};
+        const category = categories[0];
+
+        const setCompanyOptions = (selectedKind) => {
+            const selectCompany = document.getElementById("name");
+            let options = selectCompany.options;
+            for (var i = options.length - 1; 1 <= i; --i) {
+                select.removeChild(is[i])
+            }
+
+            data[selectedKind].forEach((company, index) => {
+                const option = document.createElement("option");
+                option.value = index;
+                option.innerHTML = company;
+                selectCompany.appendChild(option);
+            });
+        };
+
+        function inputChange() {
+            const kindselect = document.getElementById("kind");
+            kindselect.addEventListener("change", (e) => {
+                setCompanyOptions(e.target.value);
+            })
+
+        }
+
+
+    </script>
+</body>
+
+</html>
