@@ -1,11 +1,10 @@
 # coding: utf-8
 from flask import Flask, render_template, request
-from wtforms import Form, FloatField, StringField, validators, ValidationError, IntegerField, SubmitField
-import joblib
-import numpy as np
+from wtforms import Form, validators, IntegerField, SubmitField
 import pandas as pd
-import sys
+import datetime
 from ml import predict
+
 
 # データの受け取り先は改訂予定
 df = pd.read_excel("./managing_app/templates/data_j.xlsx", engine = 'openpyxl')
@@ -36,13 +35,6 @@ for content in gyousyu33:
     data[content] = kind["銘柄名"].tolist()
 
 gyousyu33.extend(igai33)
-
-
-
-
-
-
-
 
 
 app = Flask(__name__)
@@ -92,7 +84,15 @@ def predicts():
             return render_template('index2.html', form = form,  stock_data = stock_data, kind = kind)
         else:
             name = request.form.get("name")
+            print(name)
+            code = df[df["銘柄名"]==name]["コード"].values[0]
             
+            
+            start = datetime.datetime(int(request.form["Year1"]), int(request.form["Month1"]), int(request.form["Day1"]))
+            end = datetime.datetime(int(request.form["Year2"]), int(request.form["Month2"]), int(request.form["Day2"]))
+            
+            predict.save_fig_predict(str(code)+".T", start, end)    
+        
             return render_template('result.html' ,StockName = list_name)
     elif request.method == "GET":
         submit = KindForm(request.form)
