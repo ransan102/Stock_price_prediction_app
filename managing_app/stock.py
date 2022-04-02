@@ -4,7 +4,8 @@ from wtforms import Form, FloatField, StringField, validators, ValidationError, 
 import joblib
 import numpy as np
 import pandas as pd
-
+import sys
+from ml import predict
 
 # データの受け取り先は改訂予定
 df = pd.read_excel("./managing_app/templates/data_j.xlsx", engine = 'openpyxl')
