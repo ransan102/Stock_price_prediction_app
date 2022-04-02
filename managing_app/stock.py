@@ -4,6 +4,8 @@ from wtforms import Form, FloatField, StringField, validators, ValidationError, 
 import joblib
 import numpy as np
 import pandas as pd
+import json
+
 
 # データの受け取り先は改訂予定
 df = pd.read_excel(r"C:\Users\taipo\project_haitlab_2\Stock_price_prediction_app\managing_app\templates\data_j.xlsx", engine = 'openpyxl')
@@ -38,11 +40,11 @@ for content in gyousyu33:
     kind = df3[df3["33業種区分"] == content]
     data[content] = kind[["銘柄名"]].to_numpy().reshape(1,-1).tolist()
 
-
+gyousyu33.extend(igai33)
 
 def predict (parameters):
     model = joblib.load()
-    
+    return model
 
 app = Flask(__name__)
 
@@ -83,20 +85,19 @@ class StockForm(Form):
 @app.route("/", methods=["GET", "POST"])
 def predicts():
     form = StockForm(request.form)
+    list_name = gyousyu33
+    stock_data = data
     if request.method == "POST":
         if form.validate() == False:
-            return render_template('index.html', form = form)
+            return render_template('index.html', form = form, list_name = list_name, stock_data = stock_data)
         else:
-            kind = request.form["kind"]
-            name = request.form["name"]
-            stock_data = data
-            list_name = gyousyu33
+            
             return render_template('result.html')
     elif request.method == "GET":
-        kind = request.form["kind"]
         
-        return render_template('index.html', form = form, kind = kind)
+        
+        return render_template('index.html',form = form, list_name = list_name, stock_data = stock_data)
     
     
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug = True)
