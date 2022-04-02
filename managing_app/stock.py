@@ -94,12 +94,11 @@ def predicts():
             benefit = predict.save_fig_predict(str(code)+".T", start, end)    
             print("benfit: ",benefit)
         
-            return render_template('result.html' ,StockName = list_name)
             predict.save_fig_predict(code, start, end)
             path1 = './managing_app/images/predict1.png'
             path2 = './managing_app/images/predict2.png'
             
-            return render_template('result.html' ,Path1 = path1, Path2 = path2)
+            return render_template('result.html' ,Path1 = path1, Path2 = path2, benefit = benefit)
     elif request.method == "GET":
         submit = KindForm(request.form)
         
