@@ -1,0 +1,10 @@
+prophet
+pandas
+matplotlib
+numpy
+beautifulsoup4
+pandas-datareader
+flask
+joblib
+wtforms
+openpyxl

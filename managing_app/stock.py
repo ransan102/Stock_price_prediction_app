@@ -4,11 +4,10 @@ from wtforms import Form, FloatField, StringField, validators, ValidationError, 
 import joblib
 import numpy as np
 import pandas as pd
-import json
 
 
 # データの受け取り先は改訂予定
-df = pd.read_excel("./templates/data_j.xlsx", engine = 'openpyxl')
+df = pd.read_excel("./managing_app/templates/data_j.xlsx", engine = 'openpyxl')
 df = df[["コード","銘柄名","市場・商品区分", "33業種コード", "33業種区分"]]
 
 #33業種以外の物を抽出
@@ -37,9 +36,7 @@ for content in gyousyu33:
 
 gyousyu33.extend(igai33)
 
-def predict (parameters):
-    model = joblib.load()
-    return model
+
 
 
 
