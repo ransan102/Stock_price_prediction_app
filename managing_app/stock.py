@@ -8,37 +8,32 @@ import json
 
 
 # データの受け取り先は改訂予定
-df = pd.read_excel(r"C:\Users\taipo\project_haitlab_2\Stock_price_prediction_app\managing_app\templates\data_j.xlsx", engine = 'openpyxl')
-df
+df = pd.read_excel("./templates/data_j.xlsx", engine = 'openpyxl')
+df = df[["コード","銘柄名","市場・商品区分", "33業種コード", "33業種区分"]]
 
 #33業種以外の物を抽出
 special = df[df["33業種コード"] == "-"]
 
 #33業種以外の銘柄名をリスト化
-igai33 = ["ETF・ETN","REIT・ベンチャーファンド・カントリーファンド・インフラファンド","出資証券"]
+igai33 = list(set(special["市場・商品区分"].tolist()))
 
 #業種ごとに銘柄を辞書でまとめる1
 data = {}
 for content in igai33:
-    kind = special[special["33業種区分"] == content]
-    data[content] = kind[["銘柄名"]].to_numpy().reshape(1,-1).tolist()
-
-
-#33業種を抽出する準備作業
-df2 = df.replace({"-": np.nan})
+    kind = special[special["市場・商品区分"] == content]
+    data[content] = kind["銘柄名"].tolist()
 
 #33業種を抽出
-df3 = df2.dropna(subset = ["33業種区分"])
+df_33 = df[(df["33業種コード"] != "-") & (df["33業種区分"] != "-")] 
+
 
 # 33業種をリスト化
-
-gyousyu33 = ["水産・農林業","食料品","鉱業","石油・石炭製品","建設業","金属製品","ガラス・土石製品","繊維製品","パルプ・紙","化学","医薬品","ゴム製品","輸送用機器","鉄鋼","非鉄金属","機械","電気機器","精密機器","その他製品","情報・通信業","サービス業","電気・ガス業","陸運業","海運業","空運業","倉庫・運輸関連業","卸売業","小売業","銀行業","証券、商品先物取引業","保険業","その他金融業","不動産業"]
+gyousyu33 = list(set(df_33["33業種区分"].tolist()))
 
 #業種ごとに銘柄を辞書でまとめる2
-
 for content in gyousyu33:
-    kind = df3[df3["33業種区分"] == content]
-    data[content] = kind[["銘柄名"]].to_numpy().reshape(1,-1).tolist()
+    kind = df_33[df_33["33業種区分"] == content]
+    data[content] = kind["銘柄名"].tolist()
 
 gyousyu33.extend(igai33)
 

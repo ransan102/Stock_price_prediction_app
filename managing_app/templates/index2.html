@@ -1,27 +1,27 @@
 <title>Stock Price Prediction</title>
 <style>
-    .wrapper{
+    .wrapper {
         text-align: center;
     }
 </style>
 
-<h1 class = "wrapper">株価予測機</h1>
+<h1 class="wrapper">株価予測機</h1>
 
-<h2 class = "wrapper">この予測機は、事前に与えられた銘柄・期間を元に将来の株価の予測をグラフ形式でお見せするものです。</h2>
-<div class = "wrapper">
+<h2 class="wrapper">この予測機は、事前に与えられた銘柄・期間を元に将来の株価の予測をグラフ形式でお見せするものです。</h2>
+<div class="wrapper">
     <h3>種類</h3>
     <p>{{kind}}</p>
-    
-    <form method = 'post'>
-        <label for = 'name'>銘柄</label>
-    <select form = "nameform" name = 'name'>
-        {% for name in stock_data[kind][0] %}
-        <option>
-            {{name}}
-        </option>
-        {% endfor %}
-    </select><br>
-    <h3>期間</h3>
+
+    <form method='post'>
+        <label for='name'>銘柄</label>
+        <select form="nameform" name='name'>
+            {% for name in stock_data[kind] %}
+            <option>
+                {{name}}
+            </option>
+            {% endfor %}
+        </select><br>
+        <h3>期間</h3>
         {{form.Year1}}
         {{form.Year1.label}}
         {{form.Month1}}
@@ -39,4 +39,3 @@
         {{form.submit}}
     </form>
 </div>
-
