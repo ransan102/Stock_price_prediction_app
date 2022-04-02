@@ -12,11 +12,11 @@
     <h3>種類</h3>
     <p>{{kind}}</p>
 
-    <form method='post'>
+    <form method='post' id="nameform">
         <label for='name'>銘柄</label>
         <select form="nameform" name='name'>
             {% for name in stock_data[kind] %}
-            <option>
+            <option value={{name}}>
                 {{name}}
             </option>
             {% endfor %}

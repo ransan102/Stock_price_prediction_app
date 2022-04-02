@@ -4,8 +4,9 @@ from wtforms import Form, FloatField, StringField, validators, ValidationError, 
 import joblib
 import numpy as np
 import pandas as pd
-import sys
+
 from ml import predict
+
 
 # データの受け取り先は改訂予定
 df = pd.read_excel("./managing_app/templates/data_j.xlsx", engine = 'openpyxl')
@@ -92,8 +93,11 @@ def predicts():
             return render_template('index2.html', form = form,  stock_data = stock_data, kind = kind)
         else:
             name = request.form.get("name")
+            predict.save_fig_predict(name)
+            path1 = './managing_app/images/predict1.png'
+            path2 = './managing_app/images/predict2.png'
             
-            return render_template('result.html' ,StockName = list_name)
+            return render_template('result.html' ,Path1 = path1, Path2 = path2)
     elif request.method == "GET":
         submit = KindForm(request.form)
         
