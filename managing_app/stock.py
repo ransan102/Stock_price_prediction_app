@@ -46,11 +46,15 @@ def predict (parameters):
     model = joblib.load()
     return model
 
+
+
+
+
+
+
 app = Flask(__name__)
 
 class StockForm(Form):
-    Kind = StringField("The Kind of Stock",
-                       [validators.InputRequired("記入必須")])
     
     Year1 = IntegerField("年",
                          [validators.InputRequired("記入必須"),
@@ -78,7 +82,8 @@ class StockForm(Form):
     
     submit = SubmitField("送信")
 
-
+class KindForm(Form):
+    submit = SubmitField("送信")
 
 
 
@@ -87,16 +92,19 @@ def predicts():
     form = StockForm(request.form)
     list_name = gyousyu33
     stock_data = data
+    
     if request.method == "POST":
         if form.validate() == False:
-            return render_template('index.html', form = form, list_name = list_name, stock_data = stock_data)
+            kind = request.form.get("kind")
+            return render_template('index2.html', form = form,  stock_data = stock_data, kind = kind)
         else:
+            name = request.form.get("name")
             
-            return render_template('result.html')
+            return render_template('result.html' ,StockName = list_name)
     elif request.method == "GET":
+        submit = KindForm(request.form)
         
-        
-        return render_template('index.html',form = form, list_name = list_name, stock_data = stock_data)
+        return render_template('index.html', list_name = list_name, submit = submit)
     
     
 if __name__ == "__main__":

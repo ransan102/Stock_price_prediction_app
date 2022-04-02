@@ -9,7 +9,7 @@
 
 <h2 class = "wrapper">この予測機は、事前に与えられた銘柄・期間を元に将来の株価の予測をグラフ形式でお見せするものです。</h2>
 <div class = "wrapper">
-    <form name = "kind1" id = "kindform">
+    <form name = "kind1" id = "kindform" method = "post">
 
     <label for = "kind">種類</label>
     <select form = "kindform" name = 'kind'>
@@ -20,51 +20,7 @@
         {% endfor %}
     
     </select>
+    {{submit.submit}}
     </form>
-    <input type = "botton" value = "決定" onclick = "Onclicker()">
-    <form method = 'post'>
-        <label for = 'name'>銘柄</label>
-    <select form = "nameform" name = 'name'>
-        {% for name in stock_data[kind][0] %}
-        <option>
-            {{name}}
-        </option>
-        {% endfor %}
-    </select>
 
-        {{form.Year1}}
-        {{form.Year1.label}}
-        {{form.Month1}}
-        {{form.Month1.label}}
-        {{form.Day1}}
-        {{form.Day1.label}}<br>
-
-        {{form.Year2}}
-        {{form.Year2.label}}
-        {{form.Month2}}
-        {{form.Month2.label}}
-        {{form.Day2}}
-        {{form.Day2.label}}<br>
-
-        {{form.submit}}
-    </form>
 </div>
-
-<scripts>
-    function Onclicker (){
-        const kind1 = document.kind1.kindform;
-
-        // 値(数値)を取得
-        const num = kind1.selectedIndex;
-        //const num = document.form1.color1.selectedIndex;
-    
-        // 値(数値)から値(value値)を取得
-        const str = color1.options[num].value;
-
-        let trans = {'key':str}
-        data = JSON.stringify(trans)
-
-        const fs = require('fs')
-        fs.writeFileSync(path.join(, data))
-    }
-</scripts>
