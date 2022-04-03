@@ -94,8 +94,8 @@ def predicts():
             benefit = predict.save_fig_predict(str(code)+".T", start, end)    
             print("benfit: ",benefit)
         
-            path1 = './managing_app/images/predict1.png'
-            path2 = './managing_app/images/predict2.png'
+            path1 = 'images/predict1.png'
+            path2 = 'images/predict2.png'
             
             return render_template('result.html' ,Path1 = path1, Path2 = path2, benefit = benefit)
     elif request.method == "GET":
